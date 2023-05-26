@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Unity v4 -->
+	
+  <PropertyGroup> 
+    <TargetFramework Condition="$(TargetFramework) == ''">netstandard2.1</TargetFramework> 
+	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	<LangVersion>latest</LangVersion>
+    <NoWarn>1701;1702;NU1701</NoWarn>
+  </PropertyGroup>	
+
+  <!-- Configuration Settings -->
+
+  <PropertyGroup>
+    <DefineConstants>UNITY_V4;$(DefineConstants)</DefineConstants>
+    <DefineConstants Condition="'$(Configuration)'=='v4'">$(DefineConstants);BEHAVIOR_V4</DefineConstants>
+    <DefineConstants Condition="'$(Configuration)'=='Release'">$(DefineConstants);BEHAVIOR_V4</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Unity" Version="4.0.1" />
+    <ProjectReference Include="..\Base\Container.Adapter.csproj" />
+  </ItemGroup>
+
+	<!-- v4 Exclusions -->
+  <ItemGroup>
+  	<Compile Remove="**\*.!v4.cs" />
+  	<Compile Remove="**\*.v5.cs" />
+  	<Compile Remove="**\*.v6.cs" />
+  	<Compile Remove="**\*.v7.cs" />
+  	<Compile Remove="**\*.v8.cs" />
+  </ItemGroup>
+
+</Project>

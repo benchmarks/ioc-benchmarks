@@ -1,0 +1,15 @@
+<Project>
+    
+  <PropertyGroup>
+  
+    <!-- Benchmarks -->
+    <BenchmarkDotNetVersion>0.13.5</BenchmarkDotNetVersion>
+
+    <!-- Testing -->
+    <XUnitVersion>2.4.2</XUnitVersion>
+    <CoverletCollectorVersion>3.1.2</CoverletCollectorVersion>
+    <XUnitRunnerVisualStudioVersion>2.4.5</XUnitRunnerVisualStudioVersion>
+    
+  </PropertyGroup>
+
+</Project>

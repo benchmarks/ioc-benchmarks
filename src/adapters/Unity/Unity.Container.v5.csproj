@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Unity v5 -->
+  
+  <PropertyGroup>
+    <TargetFramework Condition="$(TargetFramework) == ''">netstandard2.1</TargetFramework> 
+	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	<LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <!-- Configuration Settings -->
+
+  <PropertyGroup>
+    <DefineConstants>UNITY_V5;$(DefineConstants)</DefineConstants>
+    <DefineConstants Condition="'$(Configuration)'=='v5'">$(DefineConstants);BEHAVIOR_V5</DefineConstants>
+    <DefineConstants Condition="'$(Configuration)'=='Release'">$(DefineConstants);BEHAVIOR_V5</DefineConstants>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Unity.Container" Version="5.11.*" />
+    <ProjectReference Include="..\Base\Container.Adapter.csproj" />
+  </ItemGroup>
+
+
+  <!-- v5 Exclusions -->
+  
+  <ItemGroup>
+  	<Compile Remove="**\*.v4.cs" />
+  	<Compile Remove="**\*.!v5.cs" />
+  	<Compile Remove="**\*.v6.cs" />
+  	<Compile Remove="**\*.v7.cs" />
+  	<Compile Remove="**\*.v8.cs" />
+  </ItemGroup>
+
+</Project>
