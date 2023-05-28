@@ -1,6 +1,5 @@
-﻿using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Jobs;
-using BenchmarkDotNet.Running;
+﻿using BenchmarkDotNet.Running;
+using IoC.Benchmarks;
 
 namespace ioc.Benchmarks
 {
@@ -8,13 +7,9 @@ namespace ioc.Benchmarks
     {
         static void Main(string[] args)
         {
-            DefaultConfig.Instance
-                .AddJob(Job.Default.AsDefault())
-                .WithOptions(ConfigOptions.DisableOptimizationsValidator);
-
             BenchmarkSwitcher.FromAssemblies(new[] 
             {
-                typeof(Program).Assembly,
+                typeof(BenchmarksBase).Assembly,
             }).Run(args);
         }
     }

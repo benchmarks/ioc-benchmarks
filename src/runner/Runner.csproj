@@ -10,4 +10,8 @@
     <PackageReference Include="BenchmarkDotNet.Diagnostics.Windows" Version="$(BenchmarkDotNetVersion)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\benchmarks\IoC.Benchmarks.csproj" />
+  </ItemGroup>
+
 </Project>

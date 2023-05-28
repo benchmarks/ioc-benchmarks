@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>No.Container</PackageId>
+    <Description>Non container IoC, theoretically best case scenario</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework Condition="$(TargetFramework) == ''">netstandard2.1</TargetFramework> 
+	<LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Base\IoC.Adapter.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+	<AdapterMetadata>
+	  <Test></Test>	  
+	</AdapterMetadata>
+  </PropertyGroup>
+
+</Project>

@@ -5,7 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet.Annotations" Version="$(BenchmarkDotNetVersion)" />
+    <PackageReference Include="BenchmarkDotNet" Version="$(BenchmarkDotNetVersion)" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\adapters\Base\IoC.Adapter.csproj" />
+  </ItemGroup>
+ 
 </Project>

@@ -7,9 +7,11 @@
 
     <!-- Testing -->
     <XUnitVersion>2.4.2</XUnitVersion>
+	<XUnitRunnerVisualstudioVersion>2.4.5</XUnitRunnerVisualstudioVersion>
     <CoverletCollectorVersion>3.1.2</CoverletCollectorVersion>
     <XUnitRunnerVisualStudioVersion>2.4.5</XUnitRunnerVisualStudioVersion>
-    
+	<MicrosoftNETTestSdkVersion>17.3.2</MicrosoftNETTestSdkVersion>
+	  
   </PropertyGroup>
 
 </Project>
