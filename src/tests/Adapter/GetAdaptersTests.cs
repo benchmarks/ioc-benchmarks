@@ -1,5 +1,4 @@
 using IoC.Adapter;
-using IoC.Adapter.Tests.Base;
 
 namespace Container.Adapter.Tests
 {
@@ -14,20 +13,8 @@ namespace Container.Adapter.Tests
             Assert.IsAssignableFrom<IEnumerable<AdapterInfo>>(list);
         }
 
-        [Fact]
-        public void GetAdaptersSourceTest()
-        {
-            var source = new AdapterInfoSource();
-
-            Assert.NotNull(source);
-            Assert.IsAssignableFrom<IEnumerable<object[]>>(source);
-
-            var list = source.ToArray();
-            Assert.True(0 < list.Length);
-        }
-
         [Theory]
-        [ClassData(typeof(AdapterInfoSource))]
+        [MemberData(nameof(AdapterInfoSource))]
         public void InfoGetAdapterTest(AdapterInfo info) 
         {
             Assert.NotNull(info);
@@ -35,5 +22,21 @@ namespace Container.Adapter.Tests
             var adapter = info.GetAdapter();
             Assert.NotNull(adapter);
         }
+
+
+        #region Test Data
+
+        public static IEnumerable<object[]> AdapterInfoSource 
+        { 
+            get
+            {             
+                foreach (var adapter in ContainerAdapter.GetAdapters())
+                {
+                    yield return new object[] { adapter };
+                }
+            }
+        }
+
+        #endregion
     }
 } 
