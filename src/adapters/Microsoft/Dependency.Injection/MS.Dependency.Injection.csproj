@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>MS.Extensions.DI</PackageId>
+    <Description>implementation of the dependency injection software design pattern</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework Condition="$(TargetFramework) == ''">netstandard2.1</TargetFramework> 
+	<LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Base\IoC.Adapter.csproj" />
+  </ItemGroup>
+
+</Project>

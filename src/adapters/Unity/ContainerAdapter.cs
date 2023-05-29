@@ -1,7 +1,7 @@
 ﻿using IoC.Adapter;
 using System;
 
-namespace IoC.NoContainer
+namespace IoC.Unity
 {
     public class UnityContainerAdapter : ContainerAdapter
     {

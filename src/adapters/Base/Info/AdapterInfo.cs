@@ -18,10 +18,11 @@ namespace IoC.Adapter
 
         private Assembly? _assembly;
         private Type? _adapter;
-        
+
         #endregion
 
 
+        #region Properties
         #pragma warning disable CS8618
 
         public string Name { get; init; }
@@ -37,6 +38,10 @@ namespace IoC.Adapter
         public string TargetFramework { get; init; }
 
         #pragma warning restore CS8618
+        #endregion
+
+
+        #region Adapter
 
         public ContainerAdapter GetAdapter() 
         {
@@ -54,9 +59,10 @@ namespace IoC.Adapter
 
                     directory = directory.Parent;
 
-                } while ( directory != directory.Root );
+                } while (directory is not null && directory != directory.Root );
 
-                Debug.Assert(directory != directory.Root);
+                Debug.Assert(directory is not null && directory != directory.Root, 
+                            "Directory Adapters has invalid project");
 
                 var assemblies = Directory.EnumerateFiles(Path.Combine(directory.FullName, Name), 
                                                           $"{Name}.dll", SearchOption.AllDirectories)
@@ -80,6 +86,8 @@ namespace IoC.Adapter
 
             return (ContainerAdapter)Activator.CreateInstance(_adapter); 
         }
+
+        #endregion
     }
 
 }

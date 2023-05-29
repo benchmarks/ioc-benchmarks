@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>VS_MEF</PackageId>
+    <Description>VS MEF (Visual Studio's flavor of the Managed Extensibility Framework)</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework Condition="$(TargetFramework) == ''">netstandard2.1</TargetFramework> 
+	<LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Base\IoC.Adapter.csproj" />
+  </ItemGroup>
+
+</Project>
