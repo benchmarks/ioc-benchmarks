@@ -1,5 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
-using System.Numerics;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
@@ -55,8 +55,13 @@ namespace IoC.Adapter.Metadata
 
                 string package = _none;
                 string version = _none;
+                var nodes = dom.DocumentElement.SelectNodes("//Project/ItemGroup/PackageReference");
+                var node = 1 == nodes.Count
+                         ? nodes.Item(0)
+                         : nodes.Cast<XmlNode>()
+                                .Where(node => node.Attributes["Label"]?.InnerText == "container")
+                                .FirstOrDefault();
 
-                var node = dom.DocumentElement.SelectSingleNode("//Project/ItemGroup/PackageReference[@Label = 'container']");
                 if (node is not null) 
                 { 
                     package = node.Attributes["Include"].Value;

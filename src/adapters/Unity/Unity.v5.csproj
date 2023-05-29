@@ -18,7 +18,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="Unity.Container" Version="5.11.*" Label="container" />
+    <PackageReference Include="Unity" Version="5.11.*" Label="container" />
     <ProjectReference Include="..\Base\IoC.Adapter.csproj" />
   </ItemGroup>
 

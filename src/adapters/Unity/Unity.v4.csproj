@@ -19,7 +19,7 @@
   </PropertyGroup>	
 
   <ItemGroup>
-    <PackageReference Include="Unity" Version="4.0.1" Label="container" />
+    <PackageReference Include="Unity" Version="4.0.1" />
     <ProjectReference Include="..\Base\IoC.Adapter.csproj" />
   </ItemGroup>
 
