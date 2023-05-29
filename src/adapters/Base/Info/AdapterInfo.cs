@@ -6,10 +6,18 @@ namespace IoC.Adapter
     [DebuggerDisplay($"{{Name,nq}}")]
     public class AdapterInfo
     {
+        #region Constants
+
+        private const string _release = "Release";
+        private const string _debug = "Debug";
+
+        #endregion
+
+
         #region Fields
 
-        Assembly? _assembly;
-        Type? _adapter;
+        private Assembly? _assembly;
+        private Type? _adapter;
         
         #endregion
 
@@ -35,29 +43,28 @@ namespace IoC.Adapter
             if (_assembly is null)
             { 
                 var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                var dir  = new DirectoryInfo(path);
-                var condition = path.Contains("Release", StringComparison.OrdinalIgnoreCase)
-                    ? "Release" 
-                    : "Debug";
+                var directory  = new DirectoryInfo(path);
+                var config = path.Contains(_release, StringComparison.OrdinalIgnoreCase)
+                    ? _release 
+                    : _debug;
                 do
                 {
-                    if (Directory.GetDirectories(dir.FullName).Any(d => Path.GetFileName(d) == Name))
+                    if (Directory.GetDirectories(directory.FullName).Any(d => Path.GetFileName(d) == Name))
                         break;
 
-                    dir = dir.Parent;
+                    directory = directory.Parent;
 
-                } while ( dir != dir.Root );
+                } while ( directory != directory.Root );
 
-                Debug.Assert(dir != dir.Root);
+                Debug.Assert(directory != directory.Root);
 
-                path = Path.Combine(dir.FullName, Name);
-
-                var assemblies = Directory.EnumerateFiles(path, $"{Name}.dll", SearchOption.AllDirectories)
+                var assemblies = Directory.EnumerateFiles(Path.Combine(directory.FullName, Name), 
+                                                          $"{Name}.dll", SearchOption.AllDirectories)
                                           .ToArray();
             
                 var file = 1 == assemblies.Length
                          ? assemblies[0]
-                         : assemblies.First(a => a.Contains(condition, StringComparison.OrdinalIgnoreCase));
+                         : assemblies.First(a => a.Contains(config, StringComparison.OrdinalIgnoreCase));
 
                 _assembly = Assembly.LoadFrom(file);
             }
