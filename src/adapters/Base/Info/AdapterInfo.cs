@@ -1,6 +1,8 @@
-﻿namespace IoC.Adapter
-{
+﻿using System.Diagnostics;
 
+namespace IoC.Adapter
+{
+    [DebuggerDisplay($"{{Name,nq}}")]
     public class AdapterInfo
     {
         #pragma warning disable CS8618 
@@ -18,6 +20,11 @@
         public string TargetFramework { get; init; }
 
         #pragma warning restore CS8618
+
+        public ContainerAdapter GetAdapter() 
+        { 
+            throw new NotImplementedException(); 
+        }
     }
 
 }
