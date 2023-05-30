@@ -1,9 +1,8 @@
-﻿using IoC.Adapter;
-using System;
+﻿using System;
 
 namespace IoC.Visual.Studio.MEF
 {
-    public class VS_MEFAdapter : ContainerAdapter
+    public class ContainerAdapter : Adapter.ContainerAdapter
     {
     }
 }

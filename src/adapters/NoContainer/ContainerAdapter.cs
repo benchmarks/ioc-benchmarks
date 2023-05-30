@@ -1,9 +1,8 @@
-﻿using IoC.Adapter;
-using System;
+﻿using System;
 
 namespace IoC.NoContainer
 {
-    public class NoContainerAdapter : ContainerAdapter
+    public class ContainerAdapter : Adapter.ContainerAdapter
     {
     }
 }

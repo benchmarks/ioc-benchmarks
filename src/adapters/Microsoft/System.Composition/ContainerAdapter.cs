@@ -1,9 +1,8 @@
-﻿using IoC.Adapter;
-using System;
+﻿using System;
 
 namespace IoC.System.Composition
 {
-    public class MEF2Adapter : ContainerAdapter
+    public class ContainerAdapter : Adapter.ContainerAdapter
     {
     }
 }

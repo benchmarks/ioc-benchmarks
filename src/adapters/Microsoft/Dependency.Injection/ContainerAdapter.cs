@@ -1,9 +1,8 @@
-﻿using IoC.Adapter;
-using System;
+﻿using System;
 
 namespace IoC.DependencyInjection
 {
-    public class MSDependencyInjectionAdapter : ContainerAdapter
+    public class ContainerAdapter : Adapter.ContainerAdapter
     {
     }
 }

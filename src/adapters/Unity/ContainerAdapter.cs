@@ -1,9 +1,6 @@
-﻿using IoC.Adapter;
-using System;
-
-namespace IoC.Unity
+﻿namespace IoC.Unity
 {
-    public class UnityContainerAdapter : ContainerAdapter
+    public class ContainerAdapter : Adapter.ContainerAdapter
     {
     }
 }

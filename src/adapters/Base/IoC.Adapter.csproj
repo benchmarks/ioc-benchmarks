@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CommonServiceLocator" Version="2.0.*" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Metadata\IoC.Adapter.Metadata.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 

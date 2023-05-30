@@ -1,9 +1,8 @@
-﻿using IoC.Adapter;
-using System;
+﻿using System;
 
 namespace IoC.System.ComponentModel
 {
-    public class MEFAdapter : ContainerAdapter
+    public class ContainerAdapter : Adapter.ContainerAdapter
     {
     }
 }
