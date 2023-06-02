@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
@@ -19,7 +18,7 @@ namespace IoC.Adapter.Metadata
 
             namespace IoC.Adapter
             {
-                public abstract partial class ContainerAdapter
+                public abstract partial class AdapterBase
                 {
                     static public partial IEnumerable<AdapterInfo> GetAdapters()
                     {
@@ -55,12 +54,11 @@ namespace IoC.Adapter.Metadata
 
                 string package = _none;
                 string version = _none;
-                var nodes = dom.DocumentElement.SelectNodes("//Project/ItemGroup/PackageReference");
-                var node = 1 == nodes.Count
-                         ? nodes.Item(0)
-                         : nodes.Cast<XmlNode>()
-                                .Where(node => node.Attributes["Label"]?.InnerText == "container")
-                                .FirstOrDefault();
+                var node = dom.DocumentElement
+                              .SelectNodes("//Project/ItemGroup/PackageReference")
+                              .Cast<XmlNode>()
+                              .Where(node => node.Attributes["Label"]?.InnerText == "container")
+                              .FirstOrDefault();
 
                 if (node is not null) 
                 { 
@@ -70,6 +68,7 @@ namespace IoC.Adapter.Metadata
 
                 var framework = dom.DocumentElement.SelectSingleNode("//Project/PropertyGroup/TargetFramework").InnerText;
                 var url = dom.DocumentElement.SelectSingleNode("//Project/PropertyGroup/PackageProjectUrl")?.InnerText ?? _none;
+                string id = dom.DocumentElement.SelectSingleNode("//Project/PropertyGroup/PackageId")?.InnerText ?? _none;
                 string description = dom.DocumentElement.SelectSingleNode("//Project/PropertyGroup/Description")?.InnerText ?? _none;
                 var info =
                     $$"""
@@ -79,6 +78,7 @@ namespace IoC.Adapter.Metadata
                                     TargetFramework = "{{framework}}",
                                     Description     = "{{description}}",
                                     PackageName     = "{{package}}",
+                                    PackageId       = "{{id}}",
                                     Version         = "{{version}}",
                                     Url             = "{{url}}",                                                    
                                     Name            = "{{name}}"
@@ -91,7 +91,7 @@ namespace IoC.Adapter.Metadata
             sb.AppendLine(_suffix);
 
             // Add the source code to the compilation
-            context.AddSource($"ContainerAdapter.g.cs", sb.ToString());
+            context.AddSource($"AdapterBase.g.cs", sb.ToString());
         }
 
 

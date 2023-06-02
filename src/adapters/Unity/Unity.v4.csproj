@@ -2,7 +2,6 @@
 
   <!-- Unity v4 -->
   <PropertyGroup>
-    <PackageId>Unity.Container.4</PackageId>
     <Description>Unity Container version 4</Description>
     <PackageProjectUrl>https://github.com/unitycontainer</PackageProjectUrl>
     <RepositoryUrl>https://github.com/unitycontainer/container</RepositoryUrl>
@@ -12,15 +11,25 @@
   </PropertyGroup>
 	
   <PropertyGroup> 
-    <TargetFramework Condition="$(TargetFramework) == ''">netstandard2.1</TargetFramework> 
+    <TargetFramework Condition="$(TargetFramework) == ''">net7.0</TargetFramework> 
 	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	<LangVersion>latest</LangVersion>
     <NoWarn>1701;1702;NU1701</NoWarn>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>	
 
   <ItemGroup>
-    <PackageReference Include="Unity" Version="4.0.1" />
-    <ProjectReference Include="..\Base\IoC.Adapter.csproj" />
+    <PackageReference Include="Unity" Version="4.0.1" Label="container" />
+    <PackageReference Include="CommonServiceLocator" Version="2.0.*" >
+      <Private>false</Private>
+	  <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Base\IoC.Adapter.csproj" >
+	  <Private>false</Private>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

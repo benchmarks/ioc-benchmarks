@@ -1,15 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework Condition="$(TargetFramework) == ''">netstandard2.1</TargetFramework> 
+    <TargetFramework Condition="$(TargetFramework) == ''">net7.0</TargetFramework> 
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="$(BenchmarkDotNetVersion)" />
+    <ProjectReference Include="..\adapters\Base\IoC.Adapter.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\adapters\Base\IoC.Adapter.csproj" />
+    <ProjectReference Include="..\adapters\Autofac\Autofac.v7.csproj">
+		<Private>false</Private>
+	</ProjectReference>
+    <ProjectReference Include="..\adapters\Microsoft\Dependency.Injection\DotNet.v7.csproj">
+		<Private>false</Private>
+	</ProjectReference>
+    <ProjectReference Include="..\adapters\Microsoft\System.ComponentModel\MEF.v7.csproj">
+		<Private>false</Private>
+	</ProjectReference>
+    <ProjectReference Include="..\adapters\Microsoft\System.Composition\MEF2.v7.csproj">
+		<Private>false</Private>
+	</ProjectReference>
+    <ProjectReference Include="..\adapters\Microsoft\vs-mef\VS_MEF.v17.csproj">
+		<Private>false</Private>
+	</ProjectReference>
+    <ProjectReference Include="..\adapters\Unity\Unity.v4.csproj">
+		<Private>false</Private>
+	</ProjectReference>
+    <ProjectReference Include="..\adapters\Unity\Unity.v5.csproj">
+		<Private>false</Private>
+	</ProjectReference>
   </ItemGroup>
  
 </Project>

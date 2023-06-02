@@ -10,14 +10,15 @@ namespace IoC.Adapter
 
         private const string _release = "Release";
         private const string _debug = "Debug";
+        private const string _none = "None";  
 
         #endregion
 
 
         #region Fields
 
-        private Assembly? _assembly;
-        private Type? _adapter;
+        private Type? _type;            // Type of the adapter
+        private Assembly? _assembly;    // Assembly implementing the adapter
 
         #endregion
 
@@ -28,6 +29,8 @@ namespace IoC.Adapter
         public string Name { get; init; }
 
         public string Version { get; init; }
+
+        public string PackageId { get; init; }
 
         public string PackageName { get; init; }
 
@@ -43,17 +46,17 @@ namespace IoC.Adapter
 
         #region Adapter
 
-        public ContainerAdapter GetAdapter() 
+        public AdapterBase GetAdapter() 
         {
-            if (_adapter is null)
+            if (_type is null)
             {
-                _adapter = (_assembly ??= LoadAssembly()).DefinedTypes
-                                                         .FirstOrDefault(t => typeof(ContainerAdapter).IsAssignableFrom(t));
-                if (_adapter is null) 
-                    throw new InvalidOperationException($"Assembly \"{_assembly.Location}\" does not implement any types derived from \"{nameof(ContainerAdapter)}\"");
+                _type = (_assembly ??= LoadAssembly()).DefinedTypes
+                                                      .FirstOrDefault(t => typeof(AdapterBase).IsAssignableFrom(t));
+                if (_type is null) 
+                    throw new InvalidOperationException($"Assembly \"{_assembly.Location}\" does not implement any types derived from \"{nameof(AdapterBase)}\"");
             }
 
-            return (ContainerAdapter)Activator.CreateInstance(_adapter); 
+            return (AdapterBase)Activator.CreateInstance(_type)!; 
         }
 
         #endregion
@@ -63,7 +66,7 @@ namespace IoC.Adapter
 
         private Assembly LoadAssembly()
         {
-            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
             var directory = new DirectoryInfo(path);
             var config = path.Contains(_release, StringComparison.OrdinalIgnoreCase)
                 ? _release
@@ -87,8 +90,20 @@ namespace IoC.Adapter
             var file = 1 == assemblies.Length
                      ? assemblies[0]
                      : assemblies.First(a => a.Contains(config, StringComparison.OrdinalIgnoreCase));
-
+            
             return Assembly.LoadFrom(file);
+        }
+
+        public override string ToString()
+        {
+            var package = !PackageId.Equals(_none)
+                ? PackageId
+                : PackageName.Equals(_none)
+                    ? Name : PackageName;
+
+            return Version.Equals(_none)
+                ? $"{package}"
+                : $"{package} {Version}";
         }
 
         #endregion

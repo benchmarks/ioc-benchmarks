@@ -1,25 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <!-- Unity v5 -->
   <PropertyGroup>
-    <Description>Unity Container version 5</Description>
-    <PackageProjectUrl>https://github.com/unitycontainer</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/unitycontainer/container</RepositoryUrl>
-    <License>https://github.com/unitycontainer/container/blob/master/LICENSE</License>
-    <PackageTags>Unity Container unitycontainer Microsoft.Practices.Unity IoC DI Dependency Injection</PackageTags>
-    <DefineConstants>UNITY_V5;$(DefineConstants)</DefineConstants>
+    <Description>Autofac is an addictive Inversion of Control container</Description>
   </PropertyGroup>
-  
+
   <PropertyGroup>
     <TargetFramework Condition="$(TargetFramework) == ''">net7.0</TargetFramework> 
 	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	<LangVersion>latest</LangVersion>
-    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
-  
-  
+
   <ItemGroup>
-    <PackageReference Include="Unity" Version="5.11.10" Label="container" />
+    <PackageReference Include="Autofac" Version="7.0.1" Label="container" />
     <PackageReference Include="CommonServiceLocator" Version="2.0.*" >
       <Private>false</Private>
 	  <ExcludeAssets>runtime</ExcludeAssets>
