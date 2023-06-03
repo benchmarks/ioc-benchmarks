@@ -12,9 +12,12 @@ namespace IoC.System.Composition
     {
         private CompositionHost _container;
         
-        public ServiceLocator(CompositionHost container)
+        public ServiceLocator(ContainerConfiguration configuration)
         {
-            _container = container;
+            configuration.WithExport<IServiceProvider>(this);
+            configuration.WithExport<IServiceLocator>(this);
+
+            _container = configuration.CreateContainer();
         }
 
 

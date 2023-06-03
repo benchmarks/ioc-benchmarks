@@ -9,14 +9,14 @@ namespace IoC.Benchmarks
     /// </summary>
     [BenchmarkCategory("basic", "fail", "unregistered")]
     [Orderer(SummaryOrderPolicy.Method)]
-    public class _00_Container_Benchmark : BenchmarksBase
+    public class Benchmark_00_Unregistered : BenchmarksBase
     {
 
         /// <summary>
         /// Measure the time it takes to complete resolve of invalid/unresolvable type
         /// </summary>
         [Benchmark(Description = "Failed resolve")]
-        public object? GetUnresolvable()
+        public object GetUnresolvable()
         {
             return ServiceLocator.GetService(typeof(IUnresolvable));
         }
@@ -27,7 +27,7 @@ namespace IoC.Benchmarks
         /// </summary>
         /// <returns></returns>
         [Benchmark(Description = "Get unregistered typeof(object)")]
-        public object? GetUnregisteredObject()
+        public object GetUnregisteredObject()
         {
             return ServiceLocator.GetInstance(typeof(object));
         }

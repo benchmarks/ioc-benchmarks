@@ -1,5 +1,8 @@
 ﻿using CommonServiceLocator;
+using System.ComponentModel;
+using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace IoC.System.ComponentModel
 {
@@ -11,9 +14,11 @@ namespace IoC.System.ComponentModel
         private CompositionContainer _container;
 
 
-        public ServiceLocator(CompositionContainer container)
+        public ServiceLocator(TypeCatalog catalog)
         {
-            _container = container;
+            _container = new CompositionContainer(catalog);
+            _container.ComposeExportedValue<IServiceProvider>(this);
+            _container.ComposeExportedValue<IServiceLocator>(this);
         }
 
 

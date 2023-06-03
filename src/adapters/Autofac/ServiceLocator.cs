@@ -1,8 +1,6 @@
 ﻿using CommonServiceLocator;
 using Autofac;
 
-#nullable disable
-
 namespace IoC.Autofac
 {
     /// <summary>
@@ -15,10 +13,8 @@ namespace IoC.Autofac
 
         public ServiceLocator(ContainerBuilder builder)
         {
-            builder.RegisterInstance(this)
-                   .As<IServiceProvider>();
-            builder.RegisterInstance(this)
-                   .As<IServiceLocator>();
+            builder.RegisterInstance(this).As<IServiceProvider>();
+            builder.RegisterInstance(this).As<IServiceLocator>();
 
             _container = builder.Build();
         }
@@ -47,7 +43,7 @@ namespace IoC.Autofac
             => throw new NotImplementedException();
 
         public object GetService(Type serviceType)
-            => _container.ResolveOptional(serviceType);
+            => _container.ResolveOptional(serviceType)!;
 
 
         public void Dispose() => _container.Dispose();

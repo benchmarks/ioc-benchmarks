@@ -12,9 +12,11 @@ namespace IoC.DependencyInjection
         private ServiceProvider _container;
 
 
-        public ServiceLocator(ServiceProvider container)
+        public ServiceLocator(IServiceCollection services)
         {
-            _container = container;
+            services.AddSingleton<IServiceLocator>(this);
+
+            _container = services.BuildServiceProvider(validateScopes: true);
         }
 
 

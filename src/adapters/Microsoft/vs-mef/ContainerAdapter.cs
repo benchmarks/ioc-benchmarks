@@ -17,6 +17,7 @@ namespace IoC.VisualStudio.Composition
             // Build up a catalog of MEF parts
             var catalog = ComposableCatalog.Create(Resolver.DefaultInstance)
                 //.AddParts(await discovery.CreatePartsAsync(Assembly.GetExecutingAssembly()))
+                .AddPart(discovery.CreatePart(typeof(ServiceLocator))!)
                 .WithCompositionService(); // Makes an ICompositionService export available to MEF parts to import
 
             // Assemble the parts into a valid graph.
@@ -27,9 +28,9 @@ namespace IoC.VisualStudio.Composition
 
             // Create an export provider, which represents a unique container of values.
             // You can create as many of these as you want, but typically an app needs just one.
-            var exportProvider = epf.CreateExportProvider();
-
-            return new ServiceLocator(exportProvider);
+            var provider = epf.CreateExportProvider();
+            
+            return provider.GetExportedValue<IServiceLocator>();
         }
 
         public override IServiceProvider GetServiceProvider(IEnumerable<RegistrationDescriptor>? registrations = null)

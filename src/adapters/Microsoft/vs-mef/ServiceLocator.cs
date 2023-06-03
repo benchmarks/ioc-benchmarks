@@ -1,19 +1,22 @@
 ﻿using CommonServiceLocator;
 using Microsoft.VisualStudio.Composition;
-using System.Linq;
+using System.Composition;
 
 namespace IoC.VisualStudio.Composition
 {
     /// <summary>
     /// An implementation of <see cref="IServiceLocator"/> that wraps the container.
     /// </summary>
+    [Export]
+    [Export(typeof(IServiceLocator))]
     public sealed class ServiceLocator : IServiceLocator, IDisposable
     {
         private ExportProvider _container;
-        
-        public ServiceLocator(ExportProvider container)
+
+        [ImportingConstructor]
+        public ServiceLocator(ExportProvider provider)
         {
-            _container = container;
+            _container = provider;
         }
 
 

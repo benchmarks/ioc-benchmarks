@@ -2,7 +2,6 @@
 using CommonServiceLocator;
 using IoC.Adapter;
 
-#nullable disable
 
 namespace IoC.Benchmarks
 {
@@ -12,20 +11,20 @@ namespace IoC.Benchmarks
         #region Fields
 
         /// <summary>
-        /// ServiceProvider exposed by built container
+        /// Current container adapter 
         /// </summary>
         public AdapterBase Adapter;
 
 
         /// <summary>
-        /// Service locator interface
+        /// Service locator exposed by the built container
         /// </summary>
         public IServiceLocator ServiceLocator;
 
 
 
         /// <summary>
-        /// Current adapter being benchmarked
+        /// Current adapter info being benchmarked
         /// </summary>
         [ParamsSource(nameof(AdapterInfoSource))]
         public AdapterInfo Container;

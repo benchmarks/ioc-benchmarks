@@ -9,9 +9,8 @@ namespace IoC.System.ComponentModel
         public override IServiceLocator GetServiceLocator(IEnumerable<RegistrationDescriptor>? registrations = null)
         {
             var catalog = new TypeCatalog();
-            var container = new CompositionContainer(catalog);
 
-            return new ServiceLocator(container);
+            return new ServiceLocator(catalog);
         }
 
         public override IServiceProvider GetServiceProvider(IEnumerable<RegistrationDescriptor>? registrations = null)
