@@ -7,7 +7,7 @@ namespace IoC.VisualStudio.Composition
     /// <summary>
     /// An implementation of <see cref="IServiceLocator"/> that wraps the container.
     /// </summary>
-    [Export]
+    [Shared]
     [Export(typeof(IServiceLocator))]
     public sealed class ServiceLocator : IServiceLocator, IDisposable
     {

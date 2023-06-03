@@ -1,30 +1,48 @@
-﻿using CommonServiceLocator;
-using IoC.Adapter.Registration;
+﻿using IoC.Adapter;
+using CommonServiceLocator;
+using System.Reflection;
 
 namespace IoC.Unity
 {
     public class ContainerAdapter : Adapter.AdapterBase
     {
-        #region Types
-
-        public override Type NativeInterfaceType => typeof(IUnityContainer);
-
-        #endregion
-
-
-        public override IServiceLocator GetServiceLocator(IEnumerable<RegistrationDescriptor>? registrations = null)
+        public ContainerAdapter(AdapterInfo info)
+            : base(info)
         {
-            var container = new UnityContainer();
+        }
 
-            if (registrations is not null) 
-            { 
-            
+        public override IServiceLocator GetServiceLocator(IEnumerable<RegistrationDescriptor> registrations)
+        {
+            var container = (IUnityContainer)new UnityContainer();
+
+            foreach (var registration in registrations)
+            {
+                switch (registration.Lifetime)
+                {
+                    case RegistrationLifetime.Singleton:
+                        container.RegisterType(registration.ImplementationType is null ? null : registration.ContractType, 
+                                               registration.ImplementationType ?? registration.ContractType, 
+                                               registration.ContractName, 
+                                               new ContainerControlledLifetimeManager());
+                        break;
+
+                    case RegistrationLifetime.Scoped:
+                        container.RegisterType(registration.ImplementationType is null ? null : registration.ContractType,
+                                               registration.ImplementationType ?? registration.ContractType,
+                                               registration.ContractName,
+                                               new ContainerControlledLifetimeManager());
+                        break;
+
+                    default:
+                        container.RegisterType(registration.ImplementationType is null ? null : registration.ContractType,
+                                               registration.ImplementationType ?? registration.ContractType,
+                                               registration.ContractName,
+                                               new TransientLifetimeManager());
+                        break;
+                }
             }
 
             return new ServiceLocator(container);
         }
-
-        public override IServiceProvider GetServiceProvider(IEnumerable<RegistrationDescriptor>? registrations = null)
-            => GetServiceLocator(registrations);
     }
 }

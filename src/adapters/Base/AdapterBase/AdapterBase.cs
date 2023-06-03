@@ -1,30 +1,43 @@
 ﻿using CommonServiceLocator;
-using IoC.Adapter.Registration;
-using System;
 
 namespace IoC.Adapter
 {
     public abstract partial class AdapterBase
     {
-        #region Types
+        #region Fields
 
-        public virtual Type NativeInterfaceType => typeof(IServiceProvider);
+        AdapterInfo _info;
+
+        #endregion
+
+
+        #region Constructors
+
+        public AdapterBase(AdapterInfo info)
+        {
+            _info = info;
+        }
 
         #endregion
 
 
         #region Services 
 
-        public abstract IServiceProvider GetServiceProvider(IEnumerable<RegistrationDescriptor>? registrations = null);
-        
-        public abstract IServiceLocator GetServiceLocator(IEnumerable<RegistrationDescriptor>? registrations = null);
+        public abstract IServiceLocator GetServiceLocator(IEnumerable<RegistrationDescriptor> registrations);
 
         #endregion
 
 
-        #region Create adapter
+        #region Adapter info list
 
         static public partial IEnumerable<AdapterInfo> GetAdapters();
+
+        #endregion
+
+
+        #region Implementation
+
+        public override string ToString() => _info.ToString();
 
         #endregion
     }

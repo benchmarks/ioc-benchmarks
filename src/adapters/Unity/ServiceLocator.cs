@@ -12,7 +12,7 @@ namespace IoC.Unity
         private IUnityContainer _container;
 
 
-        public ServiceLocator(UnityContainer container)
+        public ServiceLocator(IUnityContainer container)
         {
             _container = container;
 

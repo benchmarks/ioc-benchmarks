@@ -1,13 +1,19 @@
-﻿using CommonServiceLocator;
-using IoC.Adapter.Registration;
+﻿using IoC.Adapter;
+using CommonServiceLocator;
 using Microsoft.VisualStudio.Composition;
-
+using System.Reflection;
+using System.Diagnostics;
 
 namespace IoC.VisualStudio.Composition
 {
     public class ContainerAdapter : Adapter.AdapterBase
     {
-        public override IServiceLocator GetServiceLocator(IEnumerable<RegistrationDescriptor>? registrations = null)
+        public ContainerAdapter(AdapterInfo info)
+            : base(info)
+        {
+        }
+
+        public override IServiceLocator GetServiceLocator(IEnumerable<RegistrationDescriptor> registrations)
         {
             // Prepare part discovery to support both flavors of MEF attributes.
             var discovery = PartDiscovery.Combine(
@@ -19,6 +25,12 @@ namespace IoC.VisualStudio.Composition
                 //.AddParts(await discovery.CreatePartsAsync(Assembly.GetExecutingAssembly()))
                 .AddPart(discovery.CreatePart(typeof(ServiceLocator))!)
                 .WithCompositionService(); // Makes an ICompositionService export available to MEF parts to import
+
+            foreach (var registration in registrations)
+            {
+                var part = discovery.CreatePart(registration.ImplementationType ?? registration.ContractType)!;
+                catalog = catalog.AddPart(part);
+            }
 
             // Assemble the parts into a valid graph.
             var config = CompositionConfiguration.Create(catalog);
@@ -32,8 +44,5 @@ namespace IoC.VisualStudio.Composition
             
             return provider.GetExportedValue<IServiceLocator>();
         }
-
-        public override IServiceProvider GetServiceProvider(IEnumerable<RegistrationDescriptor>? registrations = null)
-            => GetServiceLocator(registrations);
     }
 }

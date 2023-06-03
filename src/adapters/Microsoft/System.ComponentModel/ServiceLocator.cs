@@ -1,8 +1,6 @@
 ﻿using CommonServiceLocator;
-using System.ComponentModel;
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace IoC.System.ComponentModel
 {

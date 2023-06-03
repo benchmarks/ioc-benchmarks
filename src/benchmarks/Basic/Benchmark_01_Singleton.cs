@@ -1,6 +1,8 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
 using CommonServiceLocator;
+using IoC.Adapter;
+using System;
 
 namespace IoC.Benchmarks
 {
@@ -8,23 +10,54 @@ namespace IoC.Benchmarks
     /// This benchmarks measures speed of retrieving the Container/Service Provider 
     /// itself.
     /// </summary>
+    [InvocationCount(1, 1)]
     [BenchmarkCategory("basic", "singleton")]
     [Orderer(SummaryOrderPolicy.Method)]
     public class Benchmark_01_Singleton : BenchmarksBase
     {
         #region Fields
 
-        readonly object[] _values = new object[2];
+        readonly object[] _values = new object[5];
 
         #endregion
 
 
         #region Setup
 
-        [GlobalSetup]
-        public void Setup()
-        { 
+        public override void IterationSetup()
+        {
+            Registrations = new[]
+            {
+                new RegistrationDescriptor(Container.GetType(nameof(Singleton0))
+                                                          ?? typeof(Singleton0))
+                {
+                    Lifetime = RegistrationLifetime.Singleton
+                },
+                new RegistrationDescriptor(Container.GetType(nameof(Singleton1))
+                                                          ?? typeof(Singleton1))
+                {
+                    Lifetime = RegistrationLifetime.Singleton
+                },
+                new RegistrationDescriptor(Container.GetType(nameof(Singleton2))
+                                                          ?? typeof(Singleton2))
+                {
+                    Lifetime = RegistrationLifetime.Singleton
+                },
+                new RegistrationDescriptor(Container.GetType(nameof(Singleton3))
+                                                          ?? typeof(Singleton3))
+                {
+                    Lifetime = RegistrationLifetime.Singleton
+                },
+                new RegistrationDescriptor(Container.GetType(nameof(Singleton4))
+                                                          ?? typeof(Singleton4))
+                {
+                    Lifetime = RegistrationLifetime.Singleton
+                },
+            };
+
+            base.IterationSetup();
         }
+
 
         #endregion
 
@@ -33,26 +66,29 @@ namespace IoC.Benchmarks
 
 
         /// <summary>
-        /// Resolve registered with container singleton instance
+        /// Resolve singleton instance created by the container
         /// </summary>
-        [Benchmark(Description = "Singleton registered with container", OperationsPerInvoke = 2)]
-        public object ExternallyCreatedSingleton()
+        [Benchmark(Description = "singleton created by the container", OperationsPerInvoke = 5)]
+        public object[] ContainerCreatedSingleton()
         {
-            _values[0] = ServiceLocator.GetInstance(typeof(IServiceProvider));
-            _values[0] = ServiceLocator.GetInstance(typeof(IServiceLocator));
+            _values[0] = ServiceLocator.GetInstance(Registrations[0].ContractType);
+            _values[1] = ServiceLocator.GetInstance(Registrations[1].ContractType);
+            _values[2] = ServiceLocator.GetInstance(Registrations[2].ContractType);
+            _values[3] = ServiceLocator.GetInstance(Registrations[3].ContractType);
+            _values[4] = ServiceLocator.GetInstance(Registrations[4].ContractType);
 
             return _values;
         }
 
 
         /// <summary>
-        /// Resolve singleton instance created by the container
+        /// Resolve registered with container singleton instance
         /// </summary>
-        [Benchmark(Description = "singleton created by the container", OperationsPerInvoke = 2)]
-        public object ContainerCreatedSingleton()
+        [Benchmark(Description = "Instance registered with container", OperationsPerInvoke = 2)]
+        public object[] ExternallyCreatedSingleton()
         {
             _values[0] = ServiceLocator.GetInstance(typeof(IServiceLocator));
-            _values[0] = ServiceLocator.GetInstance(typeof(IServiceLocator));
+            _values[1] = ServiceLocator.GetInstance(typeof(IServiceProvider));
 
             return _values;
         }

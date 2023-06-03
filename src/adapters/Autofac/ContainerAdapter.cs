@@ -1,32 +1,50 @@
 ﻿using Autofac;
 using CommonServiceLocator;
-using IoC.Adapter.Registration;
+using IoC.Adapter;
 
 namespace IoC.Autofac
 {
     public class ContainerAdapter : Adapter.AdapterBase
     {
+        public ContainerAdapter(AdapterInfo info)
+            : base(info)
+        {
+        }
 
-        public override IServiceLocator GetServiceLocator(IEnumerable<RegistrationDescriptor>? registrations = null)
+        public override IServiceLocator GetServiceLocator(IEnumerable<RegistrationDescriptor> registrations)
         {
             var builder = new ContainerBuilder();
+
+            foreach (var current in registrations)
+            {                    
+                var registration = current.ImplementationType is null
+                    ? builder.RegisterType(current.ContractType)
+                    : builder.RegisterType(current.ImplementationType).As(current.ContractType);
+
+                if (current.ContractName is not null) 
+                    registration.Named(current.ContractName, current.ContractType);
+
+                switch (current.Lifetime)
+                {
+                    case RegistrationLifetime.Singleton:
+                        registration.InstancePerLifetimeScope();
+                        break;
+
+                    case RegistrationLifetime.Scoped:
+                        registration.InstancePerLifetimeScope();
+                        break;
+
+                    default:
+                        registration.InstancePerDependency();
+                        break;
+                }
+            }
 
             //// Register individual components
             //builder.RegisterInstance(new TaskRepository())
             //       .As<ITaskRepository>();
-            //builder.RegisterType<TaskController>();
-            //builder.Register(c => new LogManager(DateTime.Now))
-            //       .As<ILogger>();
-
-            //// Scan an assembly for components
-            //builder.RegisterAssemblyTypes(myAssembly)
-            //       .Where(t => t.Name.EndsWith("Repository"))
-            //       .AsImplementedInterfaces();
 
             return new ServiceLocator(builder);
         }
-
-        public override IServiceProvider GetServiceProvider(IEnumerable<RegistrationDescriptor>? registrations = null)
-            => GetServiceLocator(registrations);
     }
 }

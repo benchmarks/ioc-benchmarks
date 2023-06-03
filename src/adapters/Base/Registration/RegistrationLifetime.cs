@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace IoC.Adapter.Registration
+namespace IoC.Adapter
 {
     /// <summary>
     /// Specifies the lifetime of a service in an Microsoft.Extensions.DependencyInjection.IServiceCollection.

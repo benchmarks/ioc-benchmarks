@@ -2,10 +2,8 @@
 using CommonServiceLocator;
 using IoC.Adapter;
 
-
 namespace IoC.Benchmarks
 {
-    [InvocationCount(1, 1)]
     public abstract class BenchmarksBase
     {
         #region Fields
@@ -21,6 +19,11 @@ namespace IoC.Benchmarks
         /// </summary>
         public IServiceLocator ServiceLocator;
 
+
+        /// <summary>
+        /// List of registrations required for current benchmark
+        /// </summary>
+        public RegistrationDescriptor[] Registrations = Array.Empty<RegistrationDescriptor>();
 
 
         /// <summary>
@@ -38,7 +41,7 @@ namespace IoC.Benchmarks
         public virtual void IterationSetup()
         {
             Adapter = (Container?.GetAdapter()) ?? throw new ArgumentNullException(nameof(Container));
-            ServiceLocator = Adapter.GetServiceLocator();
+            ServiceLocator = Adapter.GetServiceLocator(Registrations);
         }
 
         #endregion

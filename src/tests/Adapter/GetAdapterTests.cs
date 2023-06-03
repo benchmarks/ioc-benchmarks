@@ -25,19 +25,6 @@ namespace Container.Adapter.Tests
 
         [Theory]
         [MemberData(nameof(AdapterInfoSource))]
-        public void GetServiceProviderTest(AdapterInfo info)
-        {
-            Assert.NotNull(info);
-
-            var adapter = info.GetAdapter();
-            Assert.NotNull(adapter);
-
-            var provider = adapter.GetServiceProvider();
-            Assert.NotNull(provider);
-        }
-
-        [Theory]
-        [MemberData(nameof(AdapterInfoSource))]
         public void GetServiceLocatorTest(AdapterInfo info)
         {
             Assert.NotNull(info);
@@ -45,7 +32,7 @@ namespace Container.Adapter.Tests
             var adapter = info.GetAdapter();
             Assert.NotNull(adapter);
 
-            var locator = adapter.GetServiceLocator();
+            var locator = adapter.GetServiceLocator(Enumerable.Empty<RegistrationDescriptor>());
             Assert.NotNull(locator);
         }
 

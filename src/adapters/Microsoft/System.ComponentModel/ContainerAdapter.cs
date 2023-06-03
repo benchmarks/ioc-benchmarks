@@ -1,19 +1,24 @@
 ﻿using CommonServiceLocator;
-using IoC.Adapter.Registration;
+using IoC.Adapter;
 using System.ComponentModel.Composition.Hosting;
 
 namespace IoC.System.ComponentModel
 {
     public class ContainerAdapter : Adapter.AdapterBase
     {
-        public override IServiceLocator GetServiceLocator(IEnumerable<RegistrationDescriptor>? registrations = null)
+        public ContainerAdapter(AdapterInfo info)
+            : base(info)
         {
-            var catalog = new TypeCatalog();
+        }
+
+        public override IServiceLocator GetServiceLocator(IEnumerable<RegistrationDescriptor> registrations)
+        {
+            var array = registrations.Select(registration => registration.ImplementationType ?? registration.ContractType)
+                                     .ToArray();
+
+            var catalog = new TypeCatalog(array);
 
             return new ServiceLocator(catalog);
         }
-
-        public override IServiceProvider GetServiceProvider(IEnumerable<RegistrationDescriptor>? registrations = null)
-            => GetServiceLocator(registrations);
     }
 }

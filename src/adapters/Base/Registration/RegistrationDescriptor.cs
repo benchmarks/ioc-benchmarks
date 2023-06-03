@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 
 
-namespace IoC.Adapter.Registration
+namespace IoC.Adapter
 {
     public class RegistrationDescriptor
     {
