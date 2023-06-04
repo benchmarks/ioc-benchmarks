@@ -8,7 +8,7 @@ namespace IoC.Benchmarks
     /// This benchmarks measures speed of retrieving the Container/Service Provider 
     /// itself.
     /// </summary>
-    [BenchmarkCategory("basic", "Transient")]
+    [BenchmarkCategory("basic", "transient")]
     [Orderer(SummaryOrderPolicy.Method)]
     public class Benchmark_02_Transient : BenchmarksBase
     {
