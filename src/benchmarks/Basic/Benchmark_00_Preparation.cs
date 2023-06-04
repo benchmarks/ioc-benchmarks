@@ -10,7 +10,7 @@ namespace IoC.Benchmarks
     [MemoryDiagnoser]
     [Orderer(SummaryOrderPolicy.Method)]
     [BenchmarkCategory("basic", "prepare", "unregistered")]
-    public class Benchmark_00_Base : BenchmarksBase
+    public class Benchmark_00_Preparation : BenchmarksBase
     {
         public override void IterationSetup()
         {
