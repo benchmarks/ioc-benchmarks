@@ -7,9 +7,9 @@ namespace IoC.Benchmarks
     /// This benchmarks measures speed of retrieving the Container/Service Provider 
     /// itself.
     /// </summary>
+    [MemoryDiagnoser]
     [InvocationCount(1, 1)]
     [Orderer(SummaryOrderPolicy.Method)]
-    [MemoryDiagnoser]
     [BenchmarkCategory("basic", "prepare", "unregistered")]
     public class Benchmark_00_Base : BenchmarksBase
     {

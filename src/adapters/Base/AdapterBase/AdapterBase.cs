@@ -21,6 +21,13 @@ namespace IoC.Adapter
         #endregion
 
 
+        #region Flags
+
+        public virtual bool SupportsExternal => true;
+
+        #endregion
+
+
         #region Services 
 
         public abstract IServiceLocator GetServiceLocator(IEnumerable<RegistrationDescriptor> registrations);

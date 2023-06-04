@@ -40,8 +40,16 @@ namespace IoC.Benchmarks
         [IterationSetup]
         public virtual void IterationSetup()
         {
-            Adapter = (Container?.GetAdapter()) ?? throw new ArgumentNullException(nameof(Container));
-            ServiceLocator = Adapter.GetServiceLocator(Registrations);
+            Adapter ??= (Container?.GetAdapter()) ?? throw new ArgumentNullException(nameof(Container));            
+            ServiceLocator ??= Adapter.GetServiceLocator(Registrations);
+        }
+
+        [IterationCleanup]
+        public virtual void IterationCleanup()
+        {
+            // Each iteration requires a new adapter and service locator
+            Adapter = null;
+            ServiceLocator = null;
         }
 
         #endregion

@@ -44,6 +44,12 @@ namespace IoC.Benchmarks.Tests
             Assert.IsType(benchmark.Registrations[3].ContractType, result[3]);
             Assert.IsType(benchmark.Registrations[4].ContractType, result[4]);
 
+            Assert.Equivalent(nameof(Singleton0), result[0].GetType().Name);
+            Assert.Equivalent(nameof(Singleton1), result[1].GetType().Name);
+            Assert.Equivalent(nameof(Singleton2), result[2].GetType().Name);
+            Assert.Equivalent(nameof(Singleton3), result[3].GetType().Name);
+            Assert.Equivalent(nameof(Singleton4), result[4].GetType().Name);
+
             Assert.Same(result[0], benchmark.ServiceLocator.GetInstance(benchmark.Registrations[0].ContractType));
             Assert.Same(result[1], benchmark.ServiceLocator.GetInstance(benchmark.Registrations[1].ContractType));
             Assert.Same(result[2], benchmark.ServiceLocator.GetInstance(benchmark.Registrations[2].ContractType));
@@ -52,14 +58,16 @@ namespace IoC.Benchmarks.Tests
         }
 
         [Theory]
-        [MemberData(nameof(AdapterInfoSource))]
-        public void ExternallyCreatedSingleton(AdapterInfo info)
+        [MemberData(nameof(ExternalSingletonSource))]
+        public void ExternallyCreatedSingleton(AdapterInfo info, AdapterBase adapter)
         {
             // Setup
             var benchmark = new Benchmark_01_Singleton
             {
-                Container = info
+                Container = info,
+                Adapter = adapter
             };
+
             benchmark.IterationSetup();
 
             // Act
@@ -70,9 +78,7 @@ namespace IoC.Benchmarks.Tests
             Assert.NotNull(result[1]);
 
             Assert.IsAssignableFrom<IServiceLocator>(result[0]);
-            Assert.IsAssignableFrom<IServiceLocator>(result[1]);
-
-            Assert.Same(result[0], result[1]);
+            Assert.IsAssignableFrom<IServiceProvider>(result[1]);
         }
 
         #region Test Data
@@ -84,6 +90,21 @@ namespace IoC.Benchmarks.Tests
                 foreach (var adapter in AdapterBase.GetAdapters())
                 {
                     yield return new object[] { adapter };
+                }
+            }
+        }
+
+
+        public static IEnumerable<object[]> ExternalSingletonSource
+        {
+            get
+            {
+                foreach (var info in AdapterBase.GetAdapters())
+                {
+                    var adapter = info.GetAdapter();
+                    if (!adapter.SupportsExternal) continue;
+
+                    yield return new object[] { info, adapter };
                 }
             }
         }

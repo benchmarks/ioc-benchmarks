@@ -47,9 +47,12 @@ namespace IoC.Adapter
 
         #region Public Services
 
-
         public virtual Type? GetType(string name)
-            => (_assembly ?? LoadAssembly()).DefinedTypes.FirstOrDefault(t => name.Equals(t.Name));
+        {
+            return (_assembly ?? LoadAssembly()).DefinedTypes.FirstOrDefault(t => name.Equals(t.Name))
+                ?? typeof(AdapterInfo).Assembly.DefinedTypes.FirstOrDefault(t => name.Equals(t.Name))
+                ?? Assembly.GetCallingAssembly().DefinedTypes.FirstOrDefault(t => name.Equals(t.Name));
+        }
 
         /// <summary>
         /// Creates <see cref="RegistrationDescriptor"/>

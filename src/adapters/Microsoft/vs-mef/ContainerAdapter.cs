@@ -1,8 +1,6 @@
-﻿using IoC.Adapter;
-using CommonServiceLocator;
+﻿using CommonServiceLocator;
+using IoC.Adapter;
 using Microsoft.VisualStudio.Composition;
-using System.Reflection;
-using System.Diagnostics;
 
 namespace IoC.VisualStudio.Composition
 {
@@ -12,6 +10,13 @@ namespace IoC.VisualStudio.Composition
             : base(info)
         {
         }
+
+        #region Flags
+
+        public override bool SupportsExternal => false;
+
+        #endregion
+
 
         public override IServiceLocator GetServiceLocator(IEnumerable<RegistrationDescriptor> registrations)
         {

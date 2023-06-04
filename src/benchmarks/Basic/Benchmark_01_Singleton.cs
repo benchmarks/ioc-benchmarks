@@ -28,28 +28,23 @@ namespace IoC.Benchmarks
         {
             Registrations = new[]
             {
-                new RegistrationDescriptor(Container.GetType(nameof(Singleton0))
-                                                          ?? typeof(Singleton0))
+                new RegistrationDescriptor(Container.GetType(nameof(Singleton0)))
                 {
                     Lifetime = RegistrationLifetime.Singleton
                 },
-                new RegistrationDescriptor(Container.GetType(nameof(Singleton1))
-                                                          ?? typeof(Singleton1))
+                new RegistrationDescriptor(Container.GetType(nameof(Singleton1)))
                 {
                     Lifetime = RegistrationLifetime.Singleton
                 },
-                new RegistrationDescriptor(Container.GetType(nameof(Singleton2))
-                                                          ?? typeof(Singleton2))
+                new RegistrationDescriptor(Container.GetType(nameof(Singleton2)))
                 {
                     Lifetime = RegistrationLifetime.Singleton
                 },
-                new RegistrationDescriptor(Container.GetType(nameof(Singleton3))
-                                                          ?? typeof(Singleton3))
+                new RegistrationDescriptor(Container.GetType(nameof(Singleton3)))
                 {
                     Lifetime = RegistrationLifetime.Singleton
                 },
-                new RegistrationDescriptor(Container.GetType(nameof(Singleton4))
-                                                          ?? typeof(Singleton4))
+                new RegistrationDescriptor(Container.GetType(nameof(Singleton4)))
                 {
                     Lifetime = RegistrationLifetime.Singleton
                 },
@@ -68,7 +63,7 @@ namespace IoC.Benchmarks
         /// <summary>
         /// Resolve singleton instance created by the container
         /// </summary>
-        [Benchmark(Description = "singleton created by the container", OperationsPerInvoke = 5)]
+        [Benchmark(Description = "Singleton created by the Container", OperationsPerInvoke = 5)]
         public object[] ContainerCreatedSingleton()
         {
             _values[0] = ServiceLocator.GetInstance(Registrations[0].ContractType);
@@ -84,7 +79,7 @@ namespace IoC.Benchmarks
         /// <summary>
         /// Resolve registered with container singleton instance
         /// </summary>
-        [Benchmark(Description = "Instance registered with container", OperationsPerInvoke = 2)]
+        [Benchmark(Description = "External registered with Container", OperationsPerInvoke = 2)]
         public object[] ExternallyCreatedSingleton()
         {
             _values[0] = ServiceLocator.GetInstance(typeof(IServiceLocator));
