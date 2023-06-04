@@ -28,6 +28,8 @@ namespace IoC.Benchmarks
         {
             Registrations = new[]
             {
+                // Singletons, types exported directly
+
                 new RegistrationDescriptor(Container.GetType(nameof(Singleton0)))
                 {
                     Lifetime = RegistrationLifetime.Singleton
@@ -46,6 +48,34 @@ namespace IoC.Benchmarks
                 },
                 new RegistrationDescriptor(Container.GetType(nameof(Singleton4)))
                 {
+                    Lifetime = RegistrationLifetime.Singleton
+                },
+
+                // Singleton servicess, types exported by interface
+
+                new RegistrationDescriptor(Container.GetType(nameof(IService0)))
+                {
+                    ImplementationType = Container.GetType(nameof(SingletonService0)),
+                    Lifetime = RegistrationLifetime.Singleton
+                },
+                new RegistrationDescriptor(Container.GetType(nameof(IService1)))
+                {
+                    ImplementationType = Container.GetType(nameof(SingletonService1)),
+                    Lifetime = RegistrationLifetime.Singleton
+                },
+                new RegistrationDescriptor(Container.GetType(nameof(IService2)))
+                {
+                    ImplementationType = Container.GetType(nameof(SingletonService2)),
+                    Lifetime = RegistrationLifetime.Singleton
+                },
+                new RegistrationDescriptor(Container.GetType(nameof(IService3)))
+                {
+                    ImplementationType = Container.GetType(nameof(SingletonService3)),
+                    Lifetime = RegistrationLifetime.Singleton
+                },
+                new RegistrationDescriptor(Container.GetType(nameof(IService4)))
+                {
+                    ImplementationType = Container.GetType(nameof(SingletonService4)),
                     Lifetime = RegistrationLifetime.Singleton
                 },
             };
@@ -75,6 +105,22 @@ namespace IoC.Benchmarks
             return _values;
         }
 
+
+
+        /// <summary>
+        /// Resolve singleton instance created by the container
+        /// </summary>
+        [Benchmark(Description = "Singleton  exoprted  by  interface", OperationsPerInvoke = 5)]
+        public object[] ContainerCreatedSingletonService()
+        {
+            _values[0] = ServiceLocator.GetInstance(Registrations[5].ContractType);
+            _values[1] = ServiceLocator.GetInstance(Registrations[6].ContractType);
+            _values[2] = ServiceLocator.GetInstance(Registrations[7].ContractType);
+            _values[3] = ServiceLocator.GetInstance(Registrations[8].ContractType);
+            _values[4] = ServiceLocator.GetInstance(Registrations[9].ContractType);
+
+            return _values;
+        }
 
         /// <summary>
         /// Resolve registered with container singleton instance

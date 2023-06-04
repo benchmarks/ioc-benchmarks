@@ -8,7 +8,6 @@ namespace IoC.Benchmarks
     /// itself.
     /// </summary>
     [MemoryDiagnoser]
-    [InvocationCount(1, 1)]
     [Orderer(SummaryOrderPolicy.Method)]
     [BenchmarkCategory("basic", "prepare", "unregistered")]
     public class Benchmark_00_Base : BenchmarksBase
